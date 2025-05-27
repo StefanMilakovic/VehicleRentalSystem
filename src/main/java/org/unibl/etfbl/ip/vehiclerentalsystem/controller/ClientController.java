@@ -2,6 +2,7 @@ package org.unibl.etfbl.ip.vehiclerentalsystem.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etfbl.ip.vehiclerentalsystem.dto.ClientDTO;
 import org.unibl.etfbl.ip.vehiclerentalsystem.model.Client;
 import org.unibl.etfbl.ip.vehiclerentalsystem.service.ClientService;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public class ClientController {
 
+    /*
     private final ClientService clientService;
 
     public ClientController(ClientService clientService) {
@@ -56,5 +58,35 @@ public class ClientController {
         }
         clientService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+     */
+
+    private final ClientService clientService;
+
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Client> createClient(@RequestBody ClientDTO dto) {
+        Client client = new Client();
+        client.setUsername(dto.getUsername());
+        client.setPasswordHash(dto.getPassword());
+        client.setFirstName(dto.getFirstName());
+        client.setLastName(dto.getLastName());
+        client.setNationality(dto.getNationality());
+        client.setIdDocumentNumber(dto.getIdDocumentNumber());
+        client.setDrivingLicenseNumber(dto.getDrivingLicenseNumber());
+        client.setEmail(dto.getEmail());
+        client.setPhone(dto.getPhone());
+        client.setAvatarUrl(dto.getAvatarUrl());
+
+        return ResponseEntity.ok(clientService.save(client));
+    }
+
+    @GetMapping
+    public List<Client> getAll() {
+        return clientService.findAll();
     }
 }

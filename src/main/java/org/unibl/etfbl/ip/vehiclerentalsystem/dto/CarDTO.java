@@ -1,5 +1,5 @@
 package org.unibl.etfbl.ip.vehiclerentalsystem.dto;
-
+/*
 import java.time.LocalDate;
 
 public class CarDTO extends VehicleDTO {
@@ -12,3 +12,5 @@ public class CarDTO extends VehicleDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 }
+
+ */

@@ -1,5 +1,6 @@
 package org.unibl.etfbl.ip.vehiclerentalsystem.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.unibl.etfbl.ip.vehiclerentalsystem.model.Employee;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Employee> findAll() {
@@ -27,6 +30,9 @@ public class EmployeeService {
     }
 
     public Employee save(Employee employee) {
+        if (employee.getPasswordHash() != null && !employee.getPasswordHash().startsWith("$2a$")) {
+            employee.setPasswordHash(passwordEncoder.encode(employee.getPasswordHash()));
+        }
         return employeeRepository.save(employee);
     }
 

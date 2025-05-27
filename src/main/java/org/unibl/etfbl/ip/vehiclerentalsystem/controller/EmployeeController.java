@@ -2,8 +2,10 @@ package org.unibl.etfbl.ip.vehiclerentalsystem.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.unibl.etfbl.ip.vehiclerentalsystem.dto.EmployeeDTO;
 import org.unibl.etfbl.ip.vehiclerentalsystem.model.Employee;
 import org.unibl.etfbl.ip.vehiclerentalsystem.service.EmployeeService;
+import org.unibl.etfbl.ip.vehiclerentalsystem.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,8 @@ import java.util.Optional;
 @RequestMapping("/api/employees")
 //@CrossOrigin(origins = "http://localhost:3000") // prilagodi ako treba
 public class EmployeeController {
+
+    /*
 
     private final EmployeeService employeeService;
 
@@ -52,5 +56,31 @@ public class EmployeeController {
         }
         employeeService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+     */
+
+
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO dto) {
+        Employee employee = new Employee();
+        employee.setUsername(dto.getUsername());
+        employee.setPasswordHash(dto.getPassword());
+        employee.setFirstName(dto.getFirstName());
+        employee.setLastName(dto.getLastName());
+        employee.setRole(dto.getRole());
+
+        return ResponseEntity.ok(employeeService.save(employee));
+    }
+
+    @GetMapping
+    public List<Employee> getAll() {
+        return employeeService.findAll();
     }
 }

@@ -1,6 +1,6 @@
 package org.unibl.etfbl.ip.vehiclerentalsystem.dto;
 
-
+/*
 public abstract class VehicleDTO {
     private Integer id;
     private Double purchasePrice;
@@ -24,3 +24,5 @@ public abstract class VehicleDTO {
     public Integer getManufacturerId() { return manufacturerId; }
     public void setManufacturerId(Integer manufacturerId) { this.manufacturerId = manufacturerId; }
 }
+
+ */
