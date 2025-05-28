@@ -9,18 +9,18 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
-    private static final String SECRET_KEY = "a2V5Zm9yamF3dGNoYXQxMjM0NTY3ODkwYXNkZg=="; // Base64 encoded key
-    private static final long EXPIRATION_MS = 86400000; // 24 hours
+    private static final String SECRET_KEY = "a2V5Zm9yamF3dGNoYXQxMjM0NTY3ODkwQmNkZWZnaGk="; // 32 bajta: "keyforjwtchat1234567890Bcdefghi"
+    private static final long EXPIRATION_MS = 3600000; // 24 hours
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -43,5 +43,14 @@ public class JwtUtil {
         } catch (JwtException e) {
             return false;
         }
+    }
+
+    public String extractRole(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
     }
 }

@@ -1,13 +1,19 @@
 package org.unibl.etfbl.ip.vehiclerentalsystem.security;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Configuration
 public class SecurityConfig {
@@ -25,11 +31,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/employees",   // omogućava kreiranje admina/employee
-                                "/api/clients"      // omogućava registraciju klijenata
+                                "/api/employees/**",
+                                "/api/clients/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -40,5 +47,15 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
             throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.AuthenticationException authException) -> {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+            response.setContentType("application/json");
+            PrintWriter writer = response.getWriter();
+            writer.println("{\"error\": \"Neautorizovan pristup: " + authException.getMessage() + "\"}");
+        };
     }
 }

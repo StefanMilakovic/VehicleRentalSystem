@@ -22,6 +22,6 @@ public class Employee extends User
     private Role role;
 
     public enum Role {
-        admin, operator, management
+        admin, operator, manager
     }
 }

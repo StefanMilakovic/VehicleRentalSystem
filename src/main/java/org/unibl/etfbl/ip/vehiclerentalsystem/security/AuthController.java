@@ -4,14 +4,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.unibl.etfbl.ip.vehiclerentalsystem.security.JwtUtil;
-import org.unibl.etfbl.ip.vehiclerentalsystem.security.AuthenticationRequest;
-import org.unibl.etfbl.ip.vehiclerentalsystem.security.AuthenticationResponse;
+import org.unibl.etfbl.ip.vehiclerentalsystem.model.Employee;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
-
+public class AuthController
+{
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -24,7 +22,16 @@ public class AuthController {
     public AuthenticationResponse login(@RequestBody AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        String token = jwtUtil.generateToken(request.getUsername());
-        return new AuthenticationResponse(token);
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String role;
+        if (userDetails.getUser() instanceof Employee employee) {
+            role = employee.getRole().name().toLowerCase(); // "admin", "operator", "manager"
+        } else {
+            role = "client";
+        }
+        String token = jwtUtil.generateToken(userDetails.getUsername(), role);
+        return new AuthenticationResponse(token, role);
     }
 }
