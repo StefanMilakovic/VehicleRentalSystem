@@ -36,6 +36,9 @@ public class Client extends User
     @Column(name = "avatar_url")
     private String avatarUrl;
 
+    //Novo polje za blokiranje naloga
+    @Column(name = "blocked", nullable = false)
+    private boolean blocked;
 
     public enum Nationality {
         domestic, foreign

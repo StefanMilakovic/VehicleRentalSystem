@@ -11,6 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/manufacturers")
 //@CrossOrigin(origins = "http://localhost:3000") // prilagodi ako koristiš drugi frontend port
+@CrossOrigin(origins = "http://localhost:4200") // prilagodi ako koristiš drugi frontend port
 public class ManufacturerController {
 
     private final ManufacturerService manufacturerService;
