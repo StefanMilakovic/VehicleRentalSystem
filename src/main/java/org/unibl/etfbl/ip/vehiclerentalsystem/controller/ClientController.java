@@ -55,7 +55,9 @@ public class ClientController {
     }
 
     // Endpoint za blokiranje/deblokiranje klijenta
-    @PutMapping("/{id}/blocked")
+    //@PutMapping("/{id}/blocked")
+    @PatchMapping("/{id}/blocked")
+
     public ResponseEntity<ClientDTO> toggleBlockedStatus(@PathVariable Integer id, @RequestParam boolean blocked) {
         Client updatedClient = clientService.updateBlockedStatus(id, blocked);
         if (updatedClient == null) {

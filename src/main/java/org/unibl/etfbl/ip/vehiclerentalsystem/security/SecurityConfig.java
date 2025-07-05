@@ -25,7 +25,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+    {
+        //------------------------------------------------------------------------------------------
+        //OVO TREBA POPRAVLJATI
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -33,7 +36,8 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/employees/**",
                                 "/api/clients/**",
-                                "api/manufacturers/**"
+                                "api/manufacturers/**",
+                                "/api/clients/**/blocked"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
