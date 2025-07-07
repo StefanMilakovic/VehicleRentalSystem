@@ -36,8 +36,15 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/employees/**",
                                 "/api/clients/**",
-                                "api/manufacturers/**",
-                                "/api/clients/**/blocked"
+                                "/api/manufacturers/**",
+                                //"/api/clients/**/blocked",
+
+
+                                //TREBA OPRAVITI LOADING MANUFACTURERA
+                                "/api/cars/**",
+                                "/api/electric-bicycles/**",
+                                "/api/electric-scooters/**"
+                                //
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

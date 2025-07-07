@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/electric-scooters")
-//@CrossOrigin // Opcionalno, ako koristiš frontend
+@CrossOrigin(origins = "http://localhost:4200")
 public class ElectricScooterController {
 
     private final ElectricScooterService electricScooterService;
@@ -32,6 +32,7 @@ public class ElectricScooterController {
 
     @PostMapping
     public ElectricScooter createScooter(@RequestBody ElectricScooter scooter) {
+        scooter.setId(null);
         return electricScooterService.save(scooter);
     }
 
@@ -51,5 +52,13 @@ public class ElectricScooterController {
         }
         electricScooterService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //za csv
+
+    @PostMapping("/bulk-upload")
+    public ResponseEntity<Void> bulkUploadElectricScooters(@RequestBody List<ElectricScooter> scooters) {
+        electricScooterService.saveAll(scooters);
+        return ResponseEntity.ok().build();
     }
 }

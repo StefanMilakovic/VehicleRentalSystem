@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/electric-bicycles")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ElectricBicycleController {
 
     private final ElectricBicycleService electricBicycleService;
@@ -34,6 +35,7 @@ public class ElectricBicycleController {
     // POST /api/electric-bicycles - kreiraj novi
     @PostMapping
     public ElectricBicycle create(@RequestBody ElectricBicycle bicycle) {
+        bicycle.setId(null);
         return electricBicycleService.save(bicycle);
     }
 
@@ -57,4 +59,14 @@ public class ElectricBicycleController {
         electricBicycleService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    //za csv
+
+    @PostMapping("/bulk-upload")
+    public ResponseEntity<Void> bulkUploadElectricBicycles(@RequestBody List<ElectricBicycle> bicycles) {
+        electricBicycleService.saveAll(bicycles);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

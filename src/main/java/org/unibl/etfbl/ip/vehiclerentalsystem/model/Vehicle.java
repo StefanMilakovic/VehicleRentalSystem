@@ -27,8 +27,19 @@ public abstract class Vehicle
     @Column(name = "photo_url")
     private String photoUrl;
 
+
+    /*
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "manufacturer_id", nullable = false)
     private Manufacturer manufacturer;
 
+
+     */
+
+
+    // Promenjen fetch sa LAZY na EAGER
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "manufacturer_id", nullable = false)
+    private Manufacturer manufacturer;
 }

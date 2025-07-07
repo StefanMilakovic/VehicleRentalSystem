@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CarController {
 
     private final CarService carService;
@@ -34,6 +35,7 @@ public class CarController {
     // POST /api/cars - kreiraj novi auto
     @PostMapping
     public Car createCar(@RequestBody Car car) {
+        car.setId(null); // <<< OBAVEZNO
         return carService.save(car);
     }
 
@@ -57,4 +59,14 @@ public class CarController {
         carService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    //za csv
+
+
+    @PostMapping("/bulk-upload")
+    public ResponseEntity<Void> bulkUploadCars(@RequestBody List<Car> cars) {
+        carService.saveAll(cars);
+        return ResponseEntity.ok().build();
+    }
+
 }
