@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicle-faults")
+@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleFaultController {
 
     private final VehicleFaultService vehicleFaultService;
@@ -29,9 +30,16 @@ public class VehicleFaultController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/vehicle/{vehicleId}")
+    public List<VehicleFault> getFaultsByVehicleId(@PathVariable Integer vehicleId) {
+        return vehicleFaultService.findByVehicleId(vehicleId);
+    }
+
     @PostMapping
     public VehicleFault create(@RequestBody VehicleFault vehicleFault) {
+        vehicleFault.setId(null);
         return vehicleFaultService.save(vehicleFault);
+
     }
 
     @PutMapping("/{id}")

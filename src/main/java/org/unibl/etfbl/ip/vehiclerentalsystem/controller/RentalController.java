@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/rentals")
-//@CrossOrigin(origins = "http://localhost:3000") // prilagodi prema frontendu
+@CrossOrigin(origins = "http://localhost:4200")
 public class RentalController {
 
     private final RentalService rentalService;

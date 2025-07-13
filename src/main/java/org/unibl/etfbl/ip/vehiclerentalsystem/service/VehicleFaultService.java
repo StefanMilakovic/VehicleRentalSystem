@@ -26,6 +26,10 @@ public class VehicleFaultService {
         return vehicleFaultRepository.findById(id);
     }
 
+    public List<VehicleFault> findByVehicleId(Integer vehicleId) {
+        return vehicleFaultRepository.findAllByVehicleId(vehicleId);
+    }
+
     public VehicleFault save(VehicleFault vehicleFault) {
         return vehicleFaultRepository.save(vehicleFault);
     }

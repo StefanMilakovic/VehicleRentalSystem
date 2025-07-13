@@ -17,13 +17,28 @@ public class Rental
     @Column(name = "rental_id", nullable = false)
     private Integer id;
 
+    /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 
+     */
+
+    @Column(name = "vehicle_id", nullable = false)
+    private Integer vehicleId;
+
+
+    /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private Client client;
+
+     */
+
+
+    // Samo ID umjesto reference na Client
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     @Column(name = "start_datetime")
     private Instant startDatetime;

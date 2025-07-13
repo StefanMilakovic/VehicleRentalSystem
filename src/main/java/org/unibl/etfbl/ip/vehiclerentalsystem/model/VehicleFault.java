@@ -13,12 +13,19 @@ import java.time.Instant;
 public class VehicleFault
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vehicle_fault_id", nullable = false)
     private Integer id;
 
+    /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
+
+     */
+
+    @Column(name = "vehicle_id", nullable = false)
+    private Integer vehicleId;
 
     @Column(name = "fault_date_time", nullable = false)
     private Instant faultDateTime;
