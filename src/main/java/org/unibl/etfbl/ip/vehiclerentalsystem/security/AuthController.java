@@ -19,7 +19,7 @@ public class AuthController
     }
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody AuthenticationRequest request) {
+    public AuthResponse login(@RequestBody AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
@@ -32,6 +32,6 @@ public class AuthController
             role = "client";
         }
         String token = jwtUtil.generateToken(userDetails.getUsername(), role);
-        return new AuthenticationResponse(token, role);
+        return new AuthResponse(token, role);
     }
 }

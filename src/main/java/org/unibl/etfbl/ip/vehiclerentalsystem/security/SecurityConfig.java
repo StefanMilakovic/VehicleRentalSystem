@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,39 +13,36 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 @Configuration
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
-        //------------------------------------------------------------------------------------------
-        //OVO TREBA POPRAVLJATI
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/api/employees/**",
-                                "/api/clients/**",
-                                "/api/manufacturers/**",
+                        .requestMatchers("/api/auth/**").permitAll()
 
-                                "/api/cars/**",
-                                "/api/electric-bicycles/**",
-                                "/api/electric-scooters/**",
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                                "/api/rentals/**",
-                                "/api/vehicle-faults/**"
-                        ).permitAll()
+                        // Ove rute su dostupne SAMO ADMINIMA
+                        .requestMatchers("/api/clients/**").hasRole("ADMIN")
+                        .requestMatchers("/api/employees/**").hasRole("ADMIN")
+                        .requestMatchers("/api/manufacturers/**").hasRole("ADMIN")
+                        .requestMatchers("/api/cars/**").hasRole("ADMIN")
+                        .requestMatchers("/api/electric-bicycles/**").hasRole("ADMIN")
+                        .requestMatchers("/api/electric-scooters/**").hasRole("ADMIN")
+                        .requestMatchers("/api/rentals/**").hasRole("ADMIN")
+                        .requestMatchers("/api/vehicle-faults/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint()))
@@ -54,19 +52,28 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
             throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
-        return (HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.AuthenticationException authException) -> {
+        return (HttpServletRequest request, HttpServletResponse response,
+                org.springframework.security.core.AuthenticationException authException) -> {
+
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
             response.setContentType("application/json");
             PrintWriter writer = response.getWriter();
             writer.println("{\"error\": \"Neautorizovan pristup: " + authException.getMessage() + "\"}");
         };
     }
+
 }

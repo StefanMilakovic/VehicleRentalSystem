@@ -36,6 +36,7 @@ public class Rental
      */
 
 
+
     // Samo ID umjesto reference na Client
     @Column(name = "user_id", nullable = false)
     private Integer userId;

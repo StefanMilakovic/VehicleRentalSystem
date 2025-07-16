@@ -10,11 +10,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
-    //pokusaj necega
-    //Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    //String base64Key = Encoders.BASE64.encode(key.getEncoded());
-
     private static final String SECRET_KEY = "a2V5Zm9yamF3dGNoYXQxMjM0NTY3ODkwQmNkZWZnaGk=";  //32 bajta
     private static final long EXPIRATION_MS = 3600000; // 24 hours
 

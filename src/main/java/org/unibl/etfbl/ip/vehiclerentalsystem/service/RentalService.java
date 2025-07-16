@@ -33,4 +33,9 @@ public class RentalService {
     public void deleteById(Integer id) {
         rentalRepository.deleteById(id);
     }
+
+    public List<Rental> findByVehicleId(Long vehicleId) {
+        return rentalRepository.findByVehicleId(vehicleId);
+    }
+
 }
