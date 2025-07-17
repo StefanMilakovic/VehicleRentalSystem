@@ -27,21 +27,34 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> {
+                    // Prazno - koristi WebMvcConfigurer koji si već definisao
+                })
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
 
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // Ove rute su dostupne SAMO ADMINIMA
-                        .requestMatchers("/api/clients/**").hasRole("ADMIN")
+                        //.requestMatchers("/api/clients/**").hasRole("ADMIN")
                         .requestMatchers("/api/employees/**").hasRole("ADMIN")
-                        .requestMatchers("/api/manufacturers/**").hasRole("ADMIN")
-                        .requestMatchers("/api/cars/**").hasRole("ADMIN")
-                        .requestMatchers("/api/electric-bicycles/**").hasRole("ADMIN")
-                        .requestMatchers("/api/electric-scooters/**").hasRole("ADMIN")
-                        .requestMatchers("/api/rentals/**").hasRole("ADMIN")
-                        .requestMatchers("/api/vehicle-faults/**").hasRole("ADMIN")
+                        .requestMatchers("/api/manufacturers/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers("/api/cars/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers("/api/electric-bicycles/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers("/api/electric-scooters/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers("/api/rentals/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers("/api/vehicle-faults/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+
+
+                        // Dozvoli registraciju svima
+                        .requestMatchers(HttpMethod.POST, "/api/clients").permitAll()
+
+                        // Ograniči GET /api/clients (i sve ostalo pod /api/clients) samo za ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("ADMIN","OPERATOR")
+                        .requestMatchers(HttpMethod.PATCH, "/api/clients/**").hasAnyRole("ADMIN", "OPERATOR")
+                        .requestMatchers("/api/clients/**").hasAnyRole("ADMIN","OPERATOR") // PATCH, DELETE itd.
 
                         .anyRequest().authenticated()
                 )
