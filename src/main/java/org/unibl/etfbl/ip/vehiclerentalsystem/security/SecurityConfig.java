@@ -33,13 +33,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-
-
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Ove rute su dostupne SAMO ADMINIMA
-                        //.requestMatchers("/api/clients/**").hasRole("ADMIN")
-                        .requestMatchers("/api/employees/**").hasRole("ADMIN")
+                        .requestMatchers("/api/employees/**").hasAnyRole("ADMIN","MANAGER")
                         .requestMatchers("/api/manufacturers/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
                         .requestMatchers("/api/cars/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
                         .requestMatchers("/api/electric-bicycles/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
@@ -47,14 +43,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/rentals/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
                         .requestMatchers("/api/vehicle-faults/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
 
-
-                        // Dozvoli registraciju svima
                         .requestMatchers(HttpMethod.POST, "/api/clients").permitAll()
 
-                        // Ograniči GET /api/clients (i sve ostalo pod /api/clients) samo za ADMIN
-                        .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("ADMIN","OPERATOR")
-                        .requestMatchers(HttpMethod.PATCH, "/api/clients/**").hasAnyRole("ADMIN", "OPERATOR")
-                        .requestMatchers("/api/clients/**").hasAnyRole("ADMIN","OPERATOR") // PATCH, DELETE itd.
+                        .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/clients/**").hasAnyRole("ADMIN", "OPERATOR", "MANAGER")
+                        .requestMatchers("/api/clients/**").hasAnyRole("ADMIN","OPERATOR","MANAGER") // PATCH, DELETE itd.
+                        .requestMatchers("/api/rental-prices").hasRole("MANAGER")
 
                         .anyRequest().authenticated()
                 )
