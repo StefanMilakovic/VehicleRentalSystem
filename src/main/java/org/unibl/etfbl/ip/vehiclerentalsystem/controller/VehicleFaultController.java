@@ -31,59 +31,10 @@ public class VehicleFaultController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /*
-    @GetMapping("/vehicle/{vehicleId}")
-    public List<VehicleFault> getFaultsByVehicleId(@PathVariable Integer vehicleId) {
-        return vehicleFaultService.findByVehicleId(vehicleId);
-    }
-
-     */
-
-
-
-    /*
-    @PostMapping
-    public VehicleFault create(@RequestBody VehicleFault vehicleFault) {
-        vehicleFault.setId(null);
-        return vehicleFaultService.save(vehicleFault);
-
-    }
-
-     */
-
-    /*
-    @PutMapping("/{id}")
-    public ResponseEntity<VehicleFault> update(@PathVariable Integer id, @RequestBody VehicleFault vehicleFault) {
-        if (!vehicleFaultService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        vehicleFault.setId(id);
-        return ResponseEntity.ok(vehicleFaultService.save(vehicleFault));
-    }
-
-     */
-
-    /*
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (!vehicleFaultService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        vehicleFaultService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-     */
-
-
-
     @GetMapping("/vehicle/{vehicleId}")
     public List<VehicleFault> getFaultsByVehicleId(@PathVariable Integer vehicleId) {
         List<VehicleFault> faults = vehicleFaultService.findByVehicleId(vehicleId);
-
-        // 🔁 Provjeri i ažuriraj status vozila
         vehicleFaultService.updateVehicleStatusBasedOnFaults(vehicleId);
-
         return faults;
     }
 
@@ -91,10 +42,7 @@ public class VehicleFaultController {
     public VehicleFault create(@RequestBody VehicleFault vehicleFault) {
         vehicleFault.setId(null);
         VehicleFault saved = vehicleFaultService.save(vehicleFault);
-
-        // ✅ Ažuriraj status vozila nakon dodavanja kvara
         vehicleFaultService.updateVehicleStatusBasedOnFaults(saved.getVehicleId());
-
         return saved;
     }
 
@@ -105,10 +53,7 @@ public class VehicleFaultController {
         }
         vehicleFault.setId(id);
         VehicleFault updated = vehicleFaultService.save(vehicleFault);
-
-        // ✅ Ažuriraj status nakon izmjene
         vehicleFaultService.updateVehicleStatusBasedOnFaults(vehicleFault.getVehicleId());
-
         return ResponseEntity.ok(updated);
     }
 
@@ -121,10 +66,7 @@ public class VehicleFaultController {
             Integer vehicleId = fault.getVehicleId();
 
             vehicleFaultService.deleteById(id);
-
-            // ✅ Ažuriraj status vozila nakon brisanja kvara
             vehicleFaultService.updateVehicleStatusBasedOnFaults(vehicleId);
-
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
