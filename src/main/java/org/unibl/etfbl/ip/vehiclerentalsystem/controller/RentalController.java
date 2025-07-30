@@ -22,7 +22,6 @@ public class RentalController {
         this.rentalService = rentalService;
     }
 
-    // ✅ Ispravljeno: OVO je već pod @RequestMapping("/api/rentals"), NE treba ponovo u @GetMapping
     @GetMapping
     public List<RentalDTO> getAllRentals() {
         return rentalService.findAll().stream().map(rental -> {
@@ -48,6 +47,7 @@ public class RentalController {
             dto.setDuration(rental.getDuration());
             dto.setPickupLocation(pickup);
             dto.setReturnLocation(ret);
+            dto.setPrice(rental.getPrice());
 
             return dto;
         }).collect(Collectors.toList());
@@ -109,9 +109,9 @@ public class RentalController {
             dto.setDuration(rental.getDuration());
             dto.setPickupLocation(pickup);
             dto.setReturnLocation(ret);
+            dto.setPrice(rental.getPrice());
 
             return dto;
         }).collect(Collectors.toList());
     }
-
 }

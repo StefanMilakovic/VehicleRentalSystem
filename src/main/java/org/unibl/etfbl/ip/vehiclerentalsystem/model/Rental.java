@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Getter
@@ -37,4 +38,7 @@ public class Rental
 
     @Column(name = "return_location", columnDefinition = "point")
     private Point returnLocation;
+
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 }

@@ -2,6 +2,8 @@ package org.unibl.etfbl.ip.vehiclerentalsystem.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class RentalDTO {
     private Long id;
@@ -12,8 +14,7 @@ public class RentalDTO {
     private Integer duration;
     private GeoPoint pickupLocation;
     private GeoPoint returnLocation;
-
-    // Getteri i setteri
+    private BigDecimal price;
 }
 
 
