@@ -11,12 +11,6 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Client extends User
 {
-    /*
-    @Lob
-    @Column(name = "nationality", nullable = false)
-    private String nationality;
-     */
-
     @Enumerated(EnumType.STRING)
     @Column(name = "nationality", nullable = false)
     private Nationality nationality;
@@ -36,7 +30,6 @@ public class Client extends User
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    //Novo polje za blokiranje naloga
     @Column(name = "blocked", nullable = false)
     private boolean blocked;
 

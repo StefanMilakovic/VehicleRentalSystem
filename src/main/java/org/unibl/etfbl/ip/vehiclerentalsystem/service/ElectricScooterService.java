@@ -38,8 +38,8 @@ public class ElectricScooterService {
         electricScooterRepository.deleteById(id);
     }
 
-    //za csv
 
+    //za csv
     public void saveAll(List<ElectricScooter> scooters) {
         for (ElectricScooter scooter : scooters) {
             String manufacturerName = scooter.getManufacturer().getName();

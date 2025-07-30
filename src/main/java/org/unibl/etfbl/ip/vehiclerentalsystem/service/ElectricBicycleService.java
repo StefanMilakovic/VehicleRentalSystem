@@ -40,9 +40,6 @@ public class ElectricBicycleService {
 
 
     //za csv
-
-
-
     public void saveAll(List<ElectricBicycle> bicycles) {
         for (ElectricBicycle bicycle : bicycles) {
             String manufacturerName = bicycle.getManufacturer().getName();

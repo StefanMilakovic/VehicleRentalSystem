@@ -67,4 +67,16 @@ public class ClientController {
     }
 
 
+    //brisanje klijenta
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
+        if (clientService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        clientService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }
