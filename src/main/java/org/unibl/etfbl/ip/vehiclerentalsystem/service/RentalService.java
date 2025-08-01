@@ -5,7 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.unibl.etfbl.ip.vehiclerentalsystem.model.Rental;
 import org.unibl.etfbl.ip.vehiclerentalsystem.repository.RentalRepository;
 
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -37,5 +41,6 @@ public class RentalService {
     public List<Rental> findByVehicleId(Long vehicleId) {
         return rentalRepository.findByVehicleId(vehicleId);
     }
+
 
 }

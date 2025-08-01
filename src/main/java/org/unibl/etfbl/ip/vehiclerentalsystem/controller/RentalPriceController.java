@@ -19,6 +19,8 @@ public class RentalPriceController {
 
     @GetMapping
     public List<RentalPrice> getAll() {
+        List<RentalPrice> rentalPrices = rentalPriceService.findAll();
+        System.out.println(rentalPrices);
         return rentalPriceService.findAll();
     }
 

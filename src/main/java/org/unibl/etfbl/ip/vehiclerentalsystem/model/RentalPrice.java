@@ -22,7 +22,16 @@ public class RentalPrice
     private String vehicleType;
 
     @ColumnDefault("0.00")
-    @Column(name = "price_per_hour", nullable = false, precision = 10, scale = 2)
-    private BigDecimal pricePerHour;
+    @Column(name = "price_per_minute", nullable = false, precision = 10, scale = 2)
+    private BigDecimal pricePerMinute;
 
+    @Override
+    public String toString()
+    {
+        return "RentalPrice{" +
+                "id=" + id +
+                ", vehicleType='" + vehicleType + '\'' +
+                ", pricePerMinute=" + pricePerMinute +
+                '}';
+    }
 }

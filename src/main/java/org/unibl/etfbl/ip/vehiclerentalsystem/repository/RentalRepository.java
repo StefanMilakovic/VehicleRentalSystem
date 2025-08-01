@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.unibl.etfbl.ip.vehiclerentalsystem.model.Rental;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -12,4 +13,7 @@ import java.util.List;
 public interface RentalRepository extends JpaRepository<Rental, Integer>
 {
     List<Rental> findByVehicleId(Long vehicleId);
+
+
+
 }

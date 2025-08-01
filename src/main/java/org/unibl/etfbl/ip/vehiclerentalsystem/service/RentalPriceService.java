@@ -36,7 +36,7 @@ public class RentalPriceService {
         Optional<RentalPrice> optionalRentalPrice = rentalPriceRepository.findByVehicleType(vehicleType);
         if (optionalRentalPrice.isPresent()) {
             RentalPrice rentalPrice = optionalRentalPrice.get();
-            rentalPrice.setPricePerHour(updatedPrice.getPricePerHour());
+            rentalPrice.setPricePerMinute(updatedPrice.getPricePerMinute());
             return rentalPriceRepository.save(rentalPrice);
         } else {
             // Ako ne postoji, možeš odlučiti da li praviš novi ili bacaš grešku.
