@@ -18,6 +18,9 @@ public abstract class Vehicle
     @Column(name = "vehicle_id", nullable = false)
     private Integer id;
 
+    @Column(name = "license_plate", length = 20, unique = true)
+    private String licensePlate;
+
     @Column(name = "purchase_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal purchasePrice;
 
