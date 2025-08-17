@@ -44,8 +44,6 @@ public class VehicleFaultService {
     }
 
 
-
-    //novo, za status vozila
     public void updateVehicleStatusBasedOnFaults(Integer vehicleId) {
         List<VehicleFault> faults = vehicleFaultRepository.findAllByVehicleId(vehicleId);
         Vehicle vehicle = vehicleRepository.findById(vehicleId)

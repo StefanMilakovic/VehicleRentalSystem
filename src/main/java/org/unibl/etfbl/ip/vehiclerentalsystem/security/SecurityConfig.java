@@ -28,7 +28,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> {
-                    // Prazno - koristi WebMvcConfigurer koji si već definisao
+                    // Prazno - koristi WebMvcConfigurer koji je vec definisan
                 })
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -47,7 +47,7 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/clients/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
                         .requestMatchers(HttpMethod.PATCH, "/api/clients/**").hasAnyRole("ADMIN", "OPERATOR", "MANAGER")
-                        .requestMatchers("/api/clients/**").hasAnyRole("ADMIN","OPERATOR","MANAGER") // PATCH, DELETE itd.
+                        .requestMatchers("/api/clients/**").hasAnyRole("ADMIN","OPERATOR","MANAGER")
                         .requestMatchers("/api/rental-prices").hasRole("MANAGER")
 
                         .anyRequest().authenticated()

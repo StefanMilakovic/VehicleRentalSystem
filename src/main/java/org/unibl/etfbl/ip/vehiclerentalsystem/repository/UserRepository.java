@@ -7,10 +7,7 @@ import org.unibl.etfbl.ip.vehiclerentalsystem.model.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>
-{
-
+public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);
-
 }
 

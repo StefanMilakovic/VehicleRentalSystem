@@ -47,7 +47,7 @@ public class ElectricBicycleService {
             Manufacturer manufacturer = (Manufacturer) manufacturerRepository.findByName(manufacturerName)
                     .orElseThrow(() -> new RuntimeException("Manufacturer not found: " + manufacturerName));
 
-            bicycle.setManufacturer(manufacturer); // postavi pravi entitet sa ID-em
+            bicycle.setManufacturer(manufacturer);
         }
 
         electricBicycleRepository.saveAll(bicycles);

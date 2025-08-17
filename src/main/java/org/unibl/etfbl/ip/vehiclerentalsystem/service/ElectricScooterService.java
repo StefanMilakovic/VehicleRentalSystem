@@ -47,7 +47,7 @@ public class ElectricScooterService {
             Manufacturer manufacturer = (Manufacturer) manufacturerRepository.findByName(manufacturerName)
                     .orElseThrow(() -> new RuntimeException("Manufacturer not found: " + manufacturerName));
 
-            scooter.setManufacturer(manufacturer); // postavi pravi entitet sa ID-em
+            scooter.setManufacturer(manufacturer);
         }
 
         electricScooterRepository.saveAll(scooters);

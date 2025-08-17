@@ -11,12 +11,6 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Employee extends User
 {
-/*
-    @Lob
-    @Column(name = "role", nullable = false)
-    private String role;
-
- */
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

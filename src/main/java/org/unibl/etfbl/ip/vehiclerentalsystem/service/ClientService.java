@@ -42,8 +42,6 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-
-    //-----------------------------------------------------------------------------------------
     public Client updateBlockedStatus(Integer id, boolean blocked) {
         Optional<Client> optionalClient = clientRepository.findById(id);
         if (optionalClient.isPresent()) {
@@ -55,7 +53,6 @@ public class ClientService {
     }
 
     // DTO metode
-
     public List<ClientDTO> findAllClientsDTO() {
         return findAll().stream()
                 .map(this::convertToDTO)

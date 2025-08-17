@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class ClientController {
 
     private final ClientService clientService;
@@ -37,25 +37,12 @@ public class ClientController {
         return ResponseEntity.ok(clientService.save(client));
     }
 
-    /*
-    staro
-    @GetMapping
-    public List<Client> getAll() {
-        return clientService.findAll();
-    }
-
-     */
-
-    //-----------------------------------------------------------------------------
-    // Vrati listu klijenata kao DTO (bez passworda i drugih osetljivih podataka)
     @GetMapping
     public ResponseEntity<List<ClientDTO>> getAllClients() {
         List<ClientDTO> clientsDto = clientService.findAllClientsDTO();
         return ResponseEntity.ok(clientsDto);
     }
 
-    // Endpoint za blokiranje/deblokiranje klijenta
-    //@PutMapping("/{id}/blocked")
     @PatchMapping("/{id}/blocked")
 
     public ResponseEntity<ClientDTO> toggleBlockedStatus(@PathVariable Integer id, @RequestParam boolean blocked) {
@@ -67,7 +54,6 @@ public class ClientController {
     }
 
 
-    //brisanje klijenta
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
         if (clientService.findById(id).isEmpty()) {

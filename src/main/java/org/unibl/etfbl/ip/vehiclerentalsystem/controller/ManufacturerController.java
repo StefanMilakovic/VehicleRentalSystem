@@ -10,8 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/manufacturers")
-//@CrossOrigin(origins = "http://localhost:3000") // prilagodi ako koristiš drugi frontend port
-@CrossOrigin(origins = "http://localhost:4200") // prilagodi ako koristiš drugi frontend port
+//@CrossOrigin(origins = "http://localhost:4200")
 public class ManufacturerController {
 
     private final ManufacturerService manufacturerService;
@@ -42,7 +41,7 @@ public class ManufacturerController {
         if (!manufacturerService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        updatedManufacturer.setId(id); // Postavi ID da se ažurira postojeći entitet
+        updatedManufacturer.setId(id);
         return ResponseEntity.ok(manufacturerService.save(updatedManufacturer));
     }
 

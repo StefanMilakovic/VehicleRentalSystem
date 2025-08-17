@@ -24,10 +24,6 @@ public class RentalPriceService {
         return rentalPriceRepository.findById(id);
     }
 
-
-
-    //znaci ovo koristim dole
-
     public Optional<RentalPrice> getByVehicleType(String vehicleType) {
         return rentalPriceRepository.findByVehicleType(vehicleType);
     }
@@ -39,7 +35,6 @@ public class RentalPriceService {
             rentalPrice.setPricePerMinute(updatedPrice.getPricePerMinute());
             return rentalPriceRepository.save(rentalPrice);
         } else {
-            // Ako ne postoji, možeš odlučiti da li praviš novi ili bacaš grešku.
             updatedPrice.setVehicleType(vehicleType);
             return rentalPriceRepository.save(updatedPrice);
         }

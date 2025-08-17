@@ -61,6 +61,4 @@ public class CarController {
         carService.saveAll(cars);
         return ResponseEntity.ok().build();
     }
-
-
 }

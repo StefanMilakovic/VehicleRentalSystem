@@ -17,13 +17,6 @@ public class VehicleFault
     @Column(name = "vehicle_fault_id", nullable = false)
     private Integer id;
 
-    /*
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private Vehicle vehicle;
-
-     */
-
     @Column(name = "vehicle_id", nullable = false)
     private Integer vehicleId;
 
